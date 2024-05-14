@@ -1,21 +1,32 @@
+// RegressionLine.java
 package fi.arcada.regressionsanalys;
 
 public class RegressionLine {
 
-    // deklarera k, m, x  och correlationCoefficient som double
+    double k; // Variabel för lutningen i räta linjens ekvation y = kx + m
+    double m; // Variabel för skärningen i räta linjens ekvation y = kx + m
 
-    // Skapa en konstruktor som tar emot data-arrays för x och y
-    // Uträkningen för k och m kan ske i konstruktorn m.h.a.
-    // formeln för minsta kvadratmetoden
-    // Del 3: uträkningen för correlationCoefficient kan också ske i konstruktorn
-    // (det är förstås också ok att ha en skild metod för uträknigarna om man vill
-    // hålla konstruktorn simpel.)
 
-    // skapa en metod getX som tar emot ett y-värde, räknar ut x
-    // m.h.a. räta linjens ekvation y=kx+m, och returnerar x
+    // Konstruktor som tar emot data som double-arrays för x- och y-värden
+    public RegressionLine(double[] xVals, double[] yVals) {
+        // Uträkning av k och m med hjälp av minsta kvadratmetoden
+        double sumX = 0, sumY = 0, sumXY = 0, sumXSquare = 0;
+        // Loopar genom varje element i xVals
+        for (int i = 0; i < xVals.length; i++) {
+            sumX += xVals[i]; // Adderar det aktuella värdet av x till sumX
+            sumY += yVals[i];// Adderar det aktuella värdet av y till sumY
+            sumXY += xVals[i] * yVals[i];// Adderar produkten av aktuella x-värdet och y-värdet till sumXY
+            sumXSquare += xVals[i] * xVals[i];// Adderar kvadraten av det aktuella x-värdet till sumXSquare
+        }
+        double n = xVals.length;
+        k = (n * sumXY - sumX * sumY) / (n * sumXSquare - sumX * sumX);
+        m = (sumY - k * sumX) / n;
 
-    // Del 3:
-    // - skapa en getter-metod för correlationCoefficient
-    // - skapa en String-metod getCorrelationGrade() för uträkning av korrelationsgrad
+    }
+
+    // Metod för att beräkna och returnera skostorleken (x) baserat på ett givet y-värde
+    public double getX(double y) {
+        return (y - m) / k; // Använd räta linjens ekvation y = kx + m för att beräkna skostorleken (x)
+    }
 
 }
